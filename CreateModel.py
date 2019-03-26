@@ -48,7 +48,7 @@ print(model.summary())
 # compile model
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
 # fit model
-model.fit(X, y, batch_size=128, epochs=1)
+model.fit(X, y, batch_size=128, epochs=10)
 
 # save the model to file
 model.save('modelMaupassant.h5')
