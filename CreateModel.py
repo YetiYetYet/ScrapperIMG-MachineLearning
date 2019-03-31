@@ -1,5 +1,7 @@
 import numpy
 from pickle import dump
+
+from keras.callbacks import ModelCheckpoint
 from keras.preprocessing.text import Tokenizer
 from keras.utils import to_categorical
 from keras.models import Sequential
@@ -47,8 +49,13 @@ model.add(Dense(vocab_size, activation='softmax'))
 print(model.summary())
 # compile model
 model.compile(loss='categorical_crossentropy', optimizer='adam', metrics=['accuracy'])
-# fit model
-model.fit(X, y, batch_size=128, epochs=10)
+
+# checkpoint
+filepath="/home/marjorie/Bureau/test2/out/ModelSave/Maupassant - weights-improvement-{epoch:02d}-{val_acc:.2f}.hdf5"
+checkpoint = ModelCheckpoint(filepath, monitor='val_acc', verbose=1, save_best_only=True, mode='max')
+callbacks_list = [checkpoint]
+# Fit the model
+model.fit(X, y, validation_split=0.33, epochs=1200, batch_size=128, callbacks=callbacks_list, verbose=1)
 
 # save the model to file
 model.save('modelMaupassant.h5')
